@@ -1,0 +1,42 @@
+int redLed = 12;
+int greenLed = 11;
+//int buzzer = 10;
+int smokeA0 = A0;
+int dhtA1=A1;   
+// Your threshold value
+int sensorThres = 500;
+
+void setup() {
+  pinMode(redLed, OUTPUT);
+  pinMode(greenLed, OUTPUT);
+  //pinMode(buzzer, OUTPUT);
+  pinMode(smokeA0, INPUT);
+  pinMode(dhtA1, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int analogSensor = analogRead(smokeA0);
+  int analogSensor1 = analogRead(dhtA1);
+  Serial.print("parts per million: ");
+  Serial.println(analogSensor);
+  Serial.print("data from dht:");
+  Serial.println(analogSensor1);
+  delay(1000);
+  // Checks if it has reached the threshold value
+  if (analogSensor > sensorThres)
+  {
+    digitalWrite(redLed, HIGH);
+    Serial.println("smoke detected");
+    digitalWrite(greenLed, LOW);
+    //tone(buzzer, 1000, 200);
+  }
+  else
+  {
+    digitalWrite(redLed, LOW);
+    Serial.println("smoke not detected");
+    digitalWrite(greenLed, HIGH);
+    //noTone(buzzer);
+  }
+  delay(100);
+}
